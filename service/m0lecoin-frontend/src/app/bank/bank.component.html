@@ -1,0 +1,31 @@
+<div id="wrapper">
+    <h1>m0leBank</h1>
+    <h3>A safe place where to put your savings! <span *ngIf="!registered">Register to create an account and get 10 M0L for free!</span></h3>
+
+    <div class="registration-button" *ngIf="!registered">
+        <div><input style="width:100%" type="text" pInputText [(ngModel)]="bankOtpHash" placeholder="Team OTP Hash"/></div>
+        <div style="display: flex; gap:10px; margin:10px 0">
+            <input style="width:100%" type="text" pInputText [(ngModel)]="bankOtpV" placeholder="signature V"/>
+            <input style="width:100%" type="text" pInputText [(ngModel)]="bankOtpR" placeholder="signature R"/>
+            <input style="width:100%" type="text" pInputText [(ngModel)]="bankOtpS" placeholder="signature S"/>
+        </div>
+        <button pButton (click)="openBankAccount()" label="Open Account"></button>
+    </div>
+
+    <div class="content" *ngIf="registered">
+        <div class="summary">
+            <div>
+                <h3>Bank account balance: {{balance}} M0L</h3>
+                <button pButton icon="pi pi-refresh" (click)="checkBankBalance()" label="Refresh balance"></button>
+            </div>
+        </div>
+        <div class="operations">
+            <h2>Bank operations</h2>
+            <div style="display: flex; gap: 5px;">
+                <p-inputNumber [(ngModel)]="depositValue" suffix=" M0L" label="Deposit quantity"></p-inputNumber>
+                <button pButton icon="pi pi-money-bill" (click)="deposit()" label="Deposit"></button>
+                <button pButton icon="pi pi-sign-out" (click)="withdraw()" label="Withdraw all"></button>
+            </div>
+        </div>
+    </div>
+</div>

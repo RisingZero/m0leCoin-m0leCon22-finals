@@ -1,0 +1,117 @@
+<div id="wrapper">
+    <h1>m0leShop</h1>
+    <p>
+        Our personal semi-decentralized e-commerce! You can sell and buy digital products or share your personal gadgets with the world.
+        <br>
+        All digital products can be bought using M0L tokens, of course you must have a sufficient balance on your wallet. Consider
+        also using our bank to get 10 M0L for free!
+        <br>
+        If you want to send a gadget to someone just add the email of the receiver in the dedicated section, click 'Send' and we will cover all
+        for you without any other overheads.        
+    </p>
+
+    <div class="tab-selector">
+        <div [class]="(mode === 'buy') ? 'selected-tab' : ''" (click)="changeMode('buy')">
+            <p>Buy</p>
+        </div>
+        <div [class]="(mode === 'sell') ? 'selected-tab' : ''" (click)="changeMode('sell')">
+            <p>Sell</p>
+        </div>
+        <div [class]="(mode === 'gadget') ? 'selected-tab' : ''" (click)="changeMode('gadget')">
+            <p>Gadgets</p>
+        </div>
+    </div>
+
+    <div *ngIf="mode !== 'gadget'" class="user-balance-indicator">
+        Your balance: {{userBalance}} M0L
+    </div>
+
+    <div class="sell-box" *ngIf="mode === 'sell'">
+        <h2>Sell product</h2>
+        <div class="form">
+            <div><input type="text" pInputText [(ngModel)]="productTitle" placeholder="Title"/></div>
+            <div><input type="text" pInputText [(ngModel)]="productContent" placeholder="Content"/></div>
+            <div style="display: flex; gap: 5px">
+                <p-inputNumber [(ngModel)]="productPrice" suffix=" M0L" label="Price"></p-inputNumber>
+                <button pButton icon="pi pi-send" (click)="sellProduct()" label="Sell"></button>
+            </div>    
+        </div>
+    </div>
+
+    <div class="buy-grid" *ngIf="mode === 'buy'">
+        <div class="empty" *ngIf="products.length === 0">Sorry, no products available at the moment...</div>
+        <div class="product-list" *ngIf="products.length > 0">
+            <table>
+                <thead>
+                    <th>id</th>
+                    <th>title</th>
+                    <th>seller</th>
+                    <th>price</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr class="product-row" *ngFor="let p of products">
+                        <td>{{p.id}}</td>
+                        <td>{{p.title}}</td>
+                        <td>{{p.seller}}</td>
+                        <td>{{p.price !== -1 ? p.price : '--'}} M0L</td>
+                        <td>
+                            <button pButton (click)="clickProduct(p.id, p.seller)" [label]="(p.seller === userAddress) ? 'Delete' : 'Buy'" [disabled]="(p.seller === userAddress || p.price === -1) ? false : (userBalance < p.price)"></button>
+                            <button pButton (click)="seeProduct(p.id)" label="Open"></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p-dialog [title]="'Product: ' + selectedProductTitle" [(visible)]="showSelectedProduct" [style]="{width: '30vw'}" [modal]="true" [draggable]="false" [resizable]="false">
+            {{selectedProductContent}}
+        </p-dialog>
+    </div>
+
+    <div class="gadget-manager" *ngIf="mode === 'gadget'">
+        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+            <div class="gadget-manager-box">
+                <h2>Gadget manager options</h2>
+                <div style="display: flex; gap: 5px">
+                    <input style="width:100%" type="text" pInputText [(ngModel)]="gadgetKey" placeholder="Gadget private key"/>
+                    <button pButton (click)="updateGadgetKey()" label="Update key" [disabled]="gadgetKey === ''"></button>
+                </div>
+                <div>
+                    <input style="width:100%" type="text" pInputText [(ngModel)]="receiverMailbox" placeholder="Mailbox destination"/>
+                </div>
+            </div>
+            <div class="gadget-manager-box">
+                <h2>New gadget</h2>
+                <div style="display: flex; gap: 5px">
+                    <input style="width:100%" type="text" pInputText [(ngModel)]="gadgetContent" placeholder="New gadget content"/>
+                    <button pButton (click)="publishGadget()" label="Create gadget" [disabled]="gadgetContent === ''"></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="empty" *ngIf="gadgets.length === 0">You are not giving away any gadget, create one!</div>
+        <div class="gadgets-list" *ngIf="gadgets.length > 0">
+            <table>
+                <thead>
+                    <th>id</th>
+                    <th>seller</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr class="gadget-row" *ngFor="let g of gadgets">
+                        <td>{{g.id}}</td>
+                        <td>{{g.seller}}</td>
+                        <td>
+                            <button pButton (click)="sendGadget(g.id)" [disabled]="gadgetKey === '' || receiverMailbox === ''" label="Send"></button>
+                            <button pButton (click)="deleteGadget(g.id)" *ngIf="g.seller === userAddress" label="Delete"></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p-dialog [title]="'Product: ' + selectedProductTitle" [(visible)]="showSelectedProduct" [style]="{width: '30vw'}" [modal]="true" [draggable]="false" [resizable]="false">
+            {{selectedProductContent}}
+        </p-dialog>
+    </div>
+
+</div>

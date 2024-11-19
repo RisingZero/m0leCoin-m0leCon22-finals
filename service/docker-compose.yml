@@ -1,0 +1,64 @@
+version: '3.7'
+
+services:
+  m0lecoin_db:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      -  "3306:3306"
+    volumes:
+      - "./m0lecoin-backend/data:/var/lib/mysql"
+    restart: unless-stopped
+    networks:
+      - m0lecoin_backend_net
+
+  m0lecoin_backend:
+    build: 
+      context: "./m0lecoin-backend"
+      args:
+        API_PORT: ${API_PORT}
+        API_HOST: ${API_HOST}
+    ports:
+      - "${FRONTEND_API_PORT}:${API_PORT}"
+    restart: unless-stopped
+    environment:
+      API_HOST: ${API_HOST}
+      API_PORT: ${API_PORT}
+      API_SECRET_KEY: ${API_SECRET_KEY}
+      API_DATABASE_URL: ${API_DATABASE_URL}
+      API_WEB3_PROVIDER: ${API_WEB3_PROVIDER}
+      TOKEN_CONTRACT: ${TOKEN_CONTRACT}
+      SHOP_CONTRACT: ${SHOP_CONTRACT}
+      BANK_CONTRACT: ${BANK_CONTRACT}
+      MAILBOX_URL: ${MAILBOX_URL}
+    depends_on:
+      - m0lecoin_db
+    networks:
+      - m0lecoin_backend_net
+      - m0lecoin_proxy_net
+
+  m0lecoin_frontend:
+    build: 
+      context:  "./m0lecoin-frontend"
+      args:
+        token_contract: ${TOKEN_CONTRACT}
+        bank_contract: ${BANK_CONTRACT}
+        shop_contract: ${SHOP_CONTRACT}
+        frontend_api_port: ${FRONTEND_API_PORT}
+    ports:
+      - "${FRONTEND_PORT}:80"
+    depends_on:
+      - m0lecoin_backend
+    restart: unless-stopped
+    networks:
+      - m0lecoin_proxy_net
+
+networks:
+  m0lecoin_backend_net:
+    driver: bridge
+  m0lecoin_proxy_net:
+    driver: bridge

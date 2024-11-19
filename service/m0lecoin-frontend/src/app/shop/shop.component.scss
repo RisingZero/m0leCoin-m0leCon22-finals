@@ -1,0 +1,139 @@
+#wrapper {
+
+    .user-balance-indicator {
+        margin: auto;
+        width: fit-content;
+    }
+
+    .tab-selector {
+        width: 350px;
+        height: 50px;
+        border-radius: var(--border-radius);
+        border: 2px solid var(--primary-color);
+        display: flex;
+        margin: 30px auto;
+
+        div {
+            border-right: 2px solid var(--primary-color);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+            cursor: pointer;
+
+            &:last-child {
+                border-right: none;
+            }
+
+            p  {
+                margin: 0;
+                transition: all 0.3s ease;  
+            }
+
+            &:hover p {
+                transform: scale(0.80);
+            }
+            
+        }
+
+        .selected-tab {
+            background: var(--primary-color);
+            color: var(--primary-color-text);
+        }
+    }
+
+    .buy-grid {
+
+        .product-list {
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+
+                thead {
+                    border-bottom: 2px solid var(--surface-800);
+                }
+
+                th {
+                    padding: 10px 0;
+                    text-align: left;
+                }
+
+                td {
+                    padding: 10px 0;
+
+                    button {
+                        margin-right: 10px;
+                    }
+                }
+
+                tr {
+                    border-bottom: 1px solid var(--surface-500);
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+    }
+
+    .gadget-manager {
+
+        .gadget-manager-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .gadgets-list {
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+
+                thead {
+                    border-bottom: 2px solid var(--surface-800);
+                }
+
+                th {
+                    padding: 10px 0;
+                    text-align: left;
+                }
+
+                td {
+                    padding: 10px 0;
+
+                    button {
+                        margin-right: 10px;
+                    }
+                }
+
+                tr {
+                    border-bottom: 1px solid var(--surface-500);
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+    }
+
+    .sell-box {
+
+        .form {
+            background: var(--surface-800);
+            border-radius: var(--border-radius);
+            width: fit-content;
+            padding: 25px;
+        }
+
+        div input {
+            width: 450px;
+            margin: 10px 0;
+        }
+    }
+}

@@ -1,0 +1,19 @@
+<div id="wrapper">
+    <div class="form-box">
+        <h1>Register / Login</h1>
+        <div class="form-field">
+            <p-dropdown [options]="accounts" [(ngModel)]="selectedAccount" placeholder="Address" emptyFilterMessage="Provider not linked or no accounts" emptyMessage="Provider not linked or no accounts"></p-dropdown>
+        </div>
+        <div class="p-inputgroup form-field">
+            <span class="p-inputgroup-addon"><i class="pi pi-key"></i></span>
+            <input type="password" pPassword placeholder="Password" [(ngModel)]="password" [feedback]="false">
+        </div>
+        <div class="form-buttons">
+            <button pButton icon="pi pi-user-plus" label="Register" (click)="register()"></button>
+            <div class="metamask-button" (click)="onWalletConnect()">
+                <img src="assets/images/metamask_icon.webp" alt="MetaMask connect">
+            </div>
+            <button pButton icon="pi pi-arrow-circle-right" label="Login" (click)="login()"></button>    
+        </div>
+    </div>
+</div>

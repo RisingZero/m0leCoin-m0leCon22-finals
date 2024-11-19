@@ -1,0 +1,18 @@
+<nav>
+    <div class="logo" (click)="navigateTo('')">
+        m0leCoin
+    </div>
+
+    <div class="menu">
+        <div class="menu-item" (click)="navigateTo('wallet')"><p>m0leWallet</p></div>
+        <div class="menu-item" (click)="navigateTo('bank')"><p>m0leBank</p></div>
+        <div class="menu-item" (click)="navigateTo('shop')"><p>m0leShop</p></div>
+        <div class="menu-item">
+            <button pButton
+                [label]="(logged()) ? 'l0gout' : 'l0gin'"
+                (click)="handleLogButton()"
+                [disabled]="isLoginPage()"
+            ></button>
+        </div>
+    </div>
+</nav>

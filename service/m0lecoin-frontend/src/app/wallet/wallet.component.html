@@ -1,0 +1,37 @@
+<div id="wrapper">
+    <div class="banner-section">
+        <img src="assets/images/m0leCoin_logo_white.png" alt="m0leWallet logo">
+        <div class="description">
+            A wallet interface for our fresh new ERC20-alike token.<br>Now in Typescript and with OTP signing for added safety!
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="content">
+        <h1>Wallet</h1>
+        <div class="not-logged" *ngIf="!logged">
+            Please connect MetaMask and login to use your wallet.
+        </div>
+
+        <div class="logged" *ngIf="logged">
+            <div class="info-section">
+                <p>Address: {{userAddress}}</p>
+                <div>
+                    <p>Token balance: {{tokenBalance}} M0L</p>
+                    <button pButton icon="pi pi-refresh" (click)="checkBalance()" label="Refresh balance"></button>
+                </div>
+            </div>
+            <div class="transfer-section">
+                <h2>Transfer tokens</h2>
+                <div><input type="text" pInputText [(ngModel)]="transferDestinationAddress" placeholder="Destination address"/></div>
+                <div style="display: flex; gap: 5px">
+                    <p-inputNumber [(ngModel)]="transferQuantity" suffix=" M0L" label="Quantity"></p-inputNumber>
+                    <button pButton icon="pi pi-send" (click)="transfer()" label="Send"></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

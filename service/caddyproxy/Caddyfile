@@ -1,0 +1,13 @@
+https://m0lecoin.team{$TEAM_NUMBER}.m0lecon.fans:{$FRONTEND_API_PORT} {
+
+	tls /certificates/fullchain.pem /certificates/privkey.pem
+	
+    reverse_proxy http://m0lecoin_backend:{$API_PORT}
+}
+
+https://m0lecoin.team{$TEAM_NUMBER}.m0lecon.fans:{$FRONTEND_PORT} {
+	
+    tls /certificates/fullchain.pem /certificates/privkey.pem
+
+	reverse_proxy http://m0lecoin_frontend:80
+}
